@@ -49,6 +49,15 @@
        </div> 
       </div>
       <div class="mws-form-row"> 
+       <label class="mws-form-label">状态</label> 
+       <div class="mws-form-item"> 
+       <select name="display">
+          <option value="0" @if($v->display==0) selected @endif>上架</option>
+          <option value="1" @if($v->display==1) selected @endif>下架</option>
+       </select>
+       </div> 
+      </div>
+      <div class="mws-form-row"> 
        <label class="mws-form-label">价格</label> 
        <div class="mws-form-item"> 
         <input type="text" class="large" name="price" value="{{$info->price}}"/> 
@@ -64,7 +73,7 @@
        <label class="mws-form-label">商品图片</label> 
        <div class="mws-form-item"> 
         <input type="file" class="large" name="gpic" /> 
-        <img src="/uploads/{{$info->gpic}}" alt="">
+        <img src="/uploads/goods/{{$info->gpic}}" alt="">
        </div> 
       </div>
       <div class="mws-form-row"> 

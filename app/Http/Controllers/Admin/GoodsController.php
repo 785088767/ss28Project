@@ -9,7 +9,9 @@ use App\Admin\Goods;
 use App\Admin\Type;
 use DB;
 // 表单校验
-// use
+use App\Http\Requests\GoodsInsert;
+//修改校验
+use App\Http\Requests\GoodsInsert1;
 
 class GoodsController extends Controller
 {
@@ -46,8 +48,9 @@ class GoodsController extends Controller
         }
 
         return $cate;
-    
+        
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -66,7 +69,7 @@ class GoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GoodsInsert $request)
     {
         if($request->isMethod('POST')){
             // 判断是否有文件上传
@@ -79,7 +82,7 @@ class GoodsController extends Controller
             $data['gpic'] = $name;
             // dd($ext);
             // 移动文件
-            $request->file('gpic')->move('./uploads',$name);
+            $request->file('gpic')->move('./uploads/goods/',$name);
             }
         }
         $data = $request->except('_token');
@@ -126,12 +129,10 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GoodsInsert1 $request, $id)
     {
         $data = $request->except('_token','_method');
-        $data['display'] = 0;
-        $data['gpic'] = $data['ogpic'];
-        unset($data['ogpic']);
+        $ogpic = $request->input('ogpic');
         // 判断是否有文件上传
         if($request->hasFile('gpic')){
         //初始化名字
@@ -140,9 +141,11 @@ class GoodsController extends Controller
         $ext = $request->file('gpic')->getClientOriginalExtension();
         $name = $n.".".$ext;
         $data['gpic'] = $name;
+        unlink('./uploads/goods/'.$ogpic);
+        unset($data['ogpic']);
         // dd($ext);
         // 移动文件
-        $request->file('gpic')->move('./uploads',$name);
+        $request->file('gpic')->move('./uploads/goods/',$name);
         }
         // dd($data);
         if(Goods::where('id','=',$id)->update($data)){
@@ -161,5 +164,19 @@ class GoodsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // 商品删除
+    public function goodsDel(Request $request){
+        $id = $request->input('id');
+        // 删除图片
+        $gpic = Goods::where('id',$id)->value('gpic');
+        unlink('./uploads/goods/'.$gpic);
+        // return $id;
+        if(Goods::where('id','=',$id)->delete()){
+            echo 1;
+        }else{
+            echo 0;
+        }
     }
 }

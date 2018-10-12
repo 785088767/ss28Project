@@ -35,7 +35,7 @@
        <tr class="odd"> 
         <td class="  sorting_1">{{$row->id}}</td>
         <td class=" ">{{$row->gname}}</td> 
-        <td class=" "><img src="/uploads/{{$row->gpic}}" alt=""></td> 
+        <td class=" "><img src="/uploads/goods/{{$row->gpic}}" alt=""></td> 
         <td class=" ">{{$row->price}}</td> 
         <td class=" ">{{$row->stock}}</td> 
         <td class=" ">{{$row->salenum}}</td>
@@ -79,7 +79,6 @@
         });
     }
   });
-
 
  </script>
 </html>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Admin\Type;
+use DB;
+//导入校验类
+use App\Http\Requests\AdminInsertType;
 
 class TypeController extends Controller
 {
@@ -18,12 +21,24 @@ class TypeController extends Controller
     {
         // 获取搜索内容
         $k=$request->input('keywords');
-        $data = Type::where([
-            ["name",'like',"%".$k."%"],
-            ['pid', '=', '0'],
-            ])->paginate(2);;
-        return view('Admin.GoodsType.type',['data'=>$data,'request'=>$request->all()]);
+        // 全部分类获取
+        $cate=DB::table("home_type")->where('name','like','%',$k,'%')->select(DB::raw('*,concat(path,id)as paths'))->orderBy('paths')->paginate(8);
+        //添加分隔符
+        foreach($cate as $key=>$value){
+            //获取path
+            $path=$value->path;
+            // echo $path."<br>";
+            //转换为数组
+            $arr=explode(",",$path);
+            //获取逗号个数
+            $len=count($arr)-1;
+            //加分隔符 str_repeat 重复字符串函数
+            $cate[$key]->name=str_repeat("--|",$len).$value->name;
+        }
+        return view('Admin.GoodsType.type',['data'=>$cate,'request'=>$request->all()]);
+          
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -41,7 +56,7 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminInsertType $request)
     {
         // 获取id值
         $id = $request->input('id');
@@ -125,9 +140,11 @@ class TypeController extends Controller
     // 分类删除
     public function typeDel(Request $request){
         $id = $request->input('id');
+        // 判断是否存在子分类
         if(Type::where('pid',$id)->value('id')){
             echo 2;
         }else{
+            // 执行删除
             if(Type::where('id','=',$id)->delete()){
                 echo 1;
             }else{

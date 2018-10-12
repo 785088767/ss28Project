@@ -25,7 +25,7 @@
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">修改时间</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">创建时间</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">状态</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 101px;">操作</th>
+        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 301px;">操作</th>
        </tr> 
       </thead> 
       <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -45,9 +45,10 @@
             {{csrf_field()}}
           </form>
  -->          
+          <a href="/adminrole/{{$row->id}}" class="btn btn-mini">等级变更</a>
+          <a href="/admin/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a>
           <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a>
-          <!-- <a href="/adminuseraddress/{{$row->id}}" class="btn btn-info">会员收货地址</a> -->
-          <a href="/admin/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a></td> 
+          </td> 
        </tr>
        @endforeach
        @else

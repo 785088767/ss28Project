@@ -51,19 +51,19 @@
       <div class="mws-form-row"> 
        <label class="mws-form-label">价格</label> 
        <div class="mws-form-item"> 
-        <input type="text" class="large" name="price" /> 
+        <input type="text" class="large" onblur="check(this)" name="price" />
        </div> 
       </div>
       <div class="mws-form-row"> 
        <label class="mws-form-label">库存</label> 
        <div class="mws-form-item"> 
-        <input type="text" class="large" name="stock" /> 
+        <input type="text" class="large" onblur="check(this)" name="stock" />
        </div> 
       </div>
       <div class="mws-form-row"> 
        <label class="mws-form-label">商品图片</label> 
        <div class="mws-form-item"> 
-        <input type="file" class="large" name="gpic" /> 
+        <input type="file" class="large" name="gpic" id="file" />
        </div> 
       </div>
       <div class="mws-form-row"> 
@@ -76,7 +76,7 @@
      </div> 
      <div class="mws-button-row">
       {{csrf_field()}}
-      <input type="submit" value="Submit" class="btn btn-danger" /> 
+      <input type="submit" value="Submit" onclick="return false" class="btn btn-danger submit" /> 
       <input type="reset" value="Reset" class="btn " /> 
      </div> 
     </form> 

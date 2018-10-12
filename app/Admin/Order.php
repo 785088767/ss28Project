@@ -16,14 +16,11 @@ class Order extends Model
   public $timestamps = false;
 
   // 批量赋值字段
-  protected $fillable = ['oid','gid','num','total','status','addtime','paytime'];
+  protected $fillable = ['oid','uid','total','status','addtime','paytime','rectime'];
 
-    /**
-   * 获得此订单所属的物品。
-   */
-  public function goods()
-  {
-      return $this->belongsTo('App\Admin\Goods','gid');
+  // 关联用户表
+  public function users(){
+    return $this->belongsTo('App\Admin\Users','uid');
   }
 
   // 中文替换

@@ -18,13 +18,17 @@ class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 后台首页
+     * 管理员列表
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('Admin.index');
+    public function index(Request $request)
+    {   
+        // echo '1';
+        $k=$request->input("keywords");
+        $user = AdminUser::where("username",'like',"%".$k."%")->paginate(3);
+        // dd($user);
+        return view('Admin.AdminUsers.list',['user'=>$user,'request'=>$request->all()]);
     }
 
     /**
@@ -81,6 +85,7 @@ class AdminController extends Controller
     public function edit($id)
     {
         $info = AdminUser::find($id);
+        // dd($info);
         return view('Admin.AdminUsers.edit',['info'=>$info]);
     }
 
@@ -100,9 +105,15 @@ class AdminController extends Controller
         $data['token'] = str_random(50);
         $data['status'] = '0';
         $oldpwd = AdminUser::where('id','=',$id)->value('password');
-        // dd($oldpwd);
+        // dd($data);
         if($data['password'] != $oldpwd){
-          $data['password'] = Hash::make('password');
+          $data['password'] = Hash::make($data['password']);
+          dd($data);
+          if(AdminUser::where('id','=',$id)->update($data)){
+              return redirect('/adminList')->with('success','修改成功');
+            }else{
+              return redirect('/adminList')->with('error','修改失败');
+            }
         }
         // dd($data);
         if(AdminUser::where('id','=',$id)->update($data)){
@@ -124,14 +135,6 @@ class AdminController extends Controller
         //
     }
 
-    // 列表展示
-    public function adminlist(Request $request){
-        // echo '1';
-        $k=$request->input("keywords");
-        $user = AdminUser::where("username",'like',"%".$k."%")->paginate(3);
-        // dd($user);
-        return view('Admin.AdminUsers.list',['user'=>$user,'request'=>$request->all()]);
-    }
 
     // ajax删除
     public function adminDel(Request $request){
@@ -141,5 +144,40 @@ class AdminController extends Controller
         }else{
             echo 0;
         }
+    }
+
+    // 等级变更
+    public function rolelist($id){
+        // echo '角色变更';
+        // 获取管理员用户信息
+        $info = DB::table('admin_user')->where('id',$id)->first();
+        // 所有等级信息
+        $role = DB::table('role')->get();
+        // 获取当前管理员已有角色信息
+        $data = DB::table('user_role')->where('uid',$id)->get();
+        // dd($info);
+        if(count($data)){
+            foreach($data as $v){
+                $rid[]=$v->rid;
+            }
+            return view('Admin.AdminUsers.rolelist',['info'=>$info,'role'=>$role,'rids'=>$rid]);
+        }else{
+            return view('Admin.AdminUsers.rolelist',['info'=>$info,'role'=>$role,'rids'=>array()]);
+        }
+    }
+
+    public function saverole(Request $request){
+        // echo "这是保存角色操作";
+        // 获取rids 参数 选中的角色id
+        // dd($_POST);
+        $rid=$request->input('rid');
+        //获取id
+        $uid=$request->input('uid');
+        //删除当前用户已有的角色信息
+        $data['rid']=$rid;
+        $data['uid']=$uid;
+        //执行修改
+        DB::table("user_role")->where("uid",$uid)->update($data);
+        return redirect("/admin")->with('success','角色分配成功');
     }
 }

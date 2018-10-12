@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 // 模型类
 use App\Admin\Order;
+// 订单详情类
+use App\Admin\OrderInfo;
 
 class OrderController extends Controller
 {
@@ -54,7 +56,11 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        // 订单详情
+        // dd($id);
+        $data = OrderInfo::where('oid',$id)->get();
+        // dd($data);
+        return view('Admin.Orders.OrdersInfo',['data'=>$data]);
     }
 
     /**
@@ -92,12 +98,18 @@ class OrderController extends Controller
     }
 
     // 未支付订单
-    public function nopay(){
-
+    public function nopayList(Request $request){
+        $k=$request->input("keywords");
+        // 获取数据
+        $info = Order::where([["oid",'like',"%".$k."%"],['status','=','0']])->paginate(5);
+        return view('Admin.Orders.nopayList',['data'=>$info,'request'=>$request->all()]);
     }
 
-    // 已支付订单
-    public function payed(){
-
+    // 已完成订单
+    public function doneList(Request $request){
+        $k=$request->input("keywords");
+        // 获取数据
+        $info = Order::where([["oid",'like',"%".$k."%"],['status','=','3']])->paginate(5);
+        return view('Admin.Orders.doneList',['data'=>$info,'request'=>$request->all()]);
     }
 }

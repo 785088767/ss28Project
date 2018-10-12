@@ -28,6 +28,7 @@
   <link rel="stylesheet" type="text/css" href="/static/admins/css/mws-theme.css" media="screen" /> 
   <link rel="stylesheet" type="text/css" href="/static/admins/css/themer.css" media="screen" /> 
   <link rel="stylesheet" type="text/css" href="/static/admins/css/my.css" media="screen" /> 
+  <script src="/static/admins/js/libs/jquery-1.8.3.min.js"></script> 
   <title>@yield('title')</title> 
  </head> 
  <body> 
@@ -44,43 +45,11 @@
    <div id="mws-user-tools" class="clearfix"> 
     <!-- Notifications --> 
     <div id="mws-user-notif" class="mws-dropdown-menu"> 
-     <a href="#" data-toggle="dropdown" class="mws-dropdown-trigger"><i class="icon-exclamation-sign"></i></a> 
-     <!-- Unread notification count --> 
-     <span class="mws-dropdown-notif">35</span> 
-     <!-- Notifications dropdown --> 
-     <div class="mws-dropdown-box"> 
-      <div class="mws-dropdown-content"> 
-       <ul class="mws-notifications"> 
-        <li class="read"> <a href="#"> <span class="message"> Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="read"> <a href="#"> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="unread"> <a href="#"> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="unread"> <a href="#"> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-       </ul> 
-       <div class="mws-dropdown-viewall"> 
-        <a href="#">View All Notifications</a> 
-       </div> 
-      </div> 
-     </div> 
+     <a href="#" class="mws-dropdown-trigger">个人中心</a> 
     </div> 
     <!-- Messages --> 
     <div id="mws-user-message" class="mws-dropdown-menu"> 
-     <a href="#" data-toggle="dropdown" class="mws-dropdown-trigger"><i class="icon-envelope"></i></a> 
-     <!-- Unred messages count --> 
-     <span class="mws-dropdown-notif">35</span> 
-     <!-- Messages dropdown --> 
-     <div class="mws-dropdown-box"> 
-      <div class="mws-dropdown-content"> 
-       <ul class="mws-messages"> 
-        <li class="read"> <a href="#"> <span class="sender">John Doe</span> <span class="message"> Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="read"> <a href="#"> <span class="sender">John Doe</span> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="unread"> <a href="#"> <span class="sender">John Doe</span> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-        <li class="unread"> <a href="#"> <span class="sender">John Doe</span> <span class="message"> Lorem ipsum dolor sit amet </span> <span class="time"> January 21, 2012 </span> </a> </li> 
-       </ul> 
-       <div class="mws-dropdown-viewall"> 
-        <a href="#">View All Messages</a> 
-       </div> 
-      </div> 
-     </div> 
+     <a href="/AdminLogout" class="mws-dropdown-trigger">退出</a> 
     </div> 
     <!-- User Information and functions section --> 
     <div id="mws-user-info" class="mws-inset"> 
@@ -91,12 +60,10 @@
      <!-- Username and Functions --> 
      <div id="mws-user-functions"> 
       <div id="mws-username">
-        Hello, John Doe 
+        Hello, {{session('name')}}
       </div> 
       <ul> 
-       <li><a href="#">Profile</a></li> 
-       <li><a href="#">Change Password</a></li> 
-       <li><a href="index.html">Logout</a></li> 
+       <li><a href="/adminlogin">退出</a></li> 
       </ul> 
      </div> 
     </div> 
@@ -128,28 +95,49 @@
       <li> <a href="#"><i class="icon-user"></i> 管理员账户管理</a> 
        <ul class="closed"> 
         <li><a href="/admin/create">管理员添加</a></li> 
-        <li><a href="/adminList">管理员列表</a></li> 
+        <li><a href="/admin">管理员列表</a></li> 
+        <li><a href="/adminrolelist">角色列表</a></li> 
+       </ul> </li> 
+      <li> <a href="#"><i class="icon-users"></i> 会员账户管理</a> 
+       <ul class="closed"> 
+        <li><a href="/usersList/create">会员添加</a></li> 
+        <li><a href="/usersList">会员列表</a></li> 
        </ul> </li> 
       <li> <a href="#"><i class="icon-th-list"></i> 分类管理</a> 
        <ul class="closed"> 
         <li><a href="/type/create">分类添加</a></li> 
         <li><a href="/type">分类列表</a></li> 
        </ul> </li> 
-      <li> <a href="#"><i class="icon-file"></i> 会员账户管理</a> 
+       <li> <a href="#"><i class="icon-flag"></i> 品牌管理</a> 
        <ul class="closed"> 
-        <li><a href="/usersList/create">会员添加</a></li> 
-        <li><a href="/usersList">会员列表</a></li> 
+        <li><a href="/brandList/create">品牌添加</a></li> 
+        <li><a href="/brandList">品牌列表</a></li> 
        </ul> </li> 
-      <li> <a href="#"><i class="icon-file"></i> 商品管理</a> 
+      <li> <a href="#"><i class="icon-tag"></i> 商品管理</a> 
        <ul class="closed"> 
         <li><a href="/goodsList/create">商品添加</a></li> 
         <li><a href="/goodsList">商品列表</a></li> 
        </ul> </li> 
-      <li> <a href="#"><i class="icon-file"></i> 订单管理</a> 
+      <li> <a href="#"><i class="icon-list-2"></i> 订单管理</a> 
        <ul class="closed"> 
         <li><a href="/orderList">全部订单</a></li>
-        <li><a href="/unpaid">未支付订单</a></li>
-        <li><a href="/finished">已完成订单</a></li>
+        <li><a href="/nopayList">未支付订单</a></li>
+        <li><a href="/doneList">已完成订单</a></li>
+       </ul> </li> 
+       <li> <a href="#"><i class="icon-tag"></i> 轮播图管理</a> 
+       <ul class="closed"> 
+        <li><a href="/carousel/create">轮播图添加</a></li> 
+        <li><a href="/carousel">轮播图列表</a></li> 
+       </ul> </li> 
+       <li> <a href="#"><i class="icon-list-2"></i> 友情链接</a> 
+       <ul class="closed"> 
+        <li><a href="/link">全部</a></li>
+        <li><a href="/link/create">添加</a></li>
+       </ul> </li> 
+       <li> <a href="#"><i class="icon-list-2"></i> 广告</a> 
+       <ul class="closed"> 
+        <li><a href="/add3">全部</a></li>
+        <li><a href="/add3/create">添加</a></li>
        </ul> </li> 
      </ul> 
     </div> 
@@ -181,7 +169,6 @@
    <!-- Main Container End --> 
   </div> 
   <!-- JavaScript Plugins --> 
-  <script src="/static/admins/js/libs/jquery-1.8.3.min.js"></script> 
   <script src="/static/admins/js/libs/jquery.mousewheel.min.js"></script> 
   <script src="/static/admins/js/libs/jquery.placeholder.min.js"></script> 
   <script src="/static/admins/custom-plugins/fileinput.js"></script> 

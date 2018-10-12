@@ -9,7 +9,7 @@
     <title>@yield('title')</title>
 
     <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet"> -->
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="/static/home/css/bootstrap.min.css"/>
@@ -26,6 +26,9 @@
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="/static/home/css/style.css"/>
+
+    <!-- jq -->
+    <script type="text/javascript" src="/static/jquery-1.8.3.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -74,13 +77,8 @@
             <div class="col-md-6">
               <div class="header-search">
                 <form>
-                  <select class="input-select">
-                    <option value="0">All Categories</option>
-                    <option value="1">Category 01</option>
-                    <option value="1">Category 02</option>
-                  </select>
-                  <input class="input" placeholder="Search here">
-                  <button class="search-btn">Search</button>
+                  <input class="input" placeholder="查找内容" style="">
+                  <button class="search-btn">查找</button>
                 </form>
               </div>
             </div>
@@ -101,44 +99,11 @@
 
                 <!-- Cart -->
                 <div class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                  <a class="dropdown-toggle"  href="/cart">
                     <i class="fa fa-shopping-cart"></i>
                     <span>购物车</span>
                     <div class="qty">3</div>
                   </a>
-                  <div class="cart-dropdown">
-                    <div class="cart-list">
-                      <div class="product-widget">
-                        <div class="product-img">
-                          <img src="/static/home/img/product01.png" alt="">
-                        </div>
-                        <div class="product-body">
-                          <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                          <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                        </div>
-                        <button class="delete"><i class="fa fa-close"></i></button>
-                      </div>
-
-                      <div class="product-widget">
-                        <div class="product-img">
-                          <img src="/static/home/img/product02.png" alt="">
-                        </div>
-                        <div class="product-body">
-                          <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                          <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                        </div>
-                        <button class="delete"><i class="fa fa-close"></i></button>
-                      </div>
-                    </div>
-                    <div class="cart-summary">
-                      <small>3 Item(s) selected</small>
-                      <h5>SUBTOTAL: $2940.00</h5>
-                    </div>
-                    <div class="cart-btns">
-                      <a href="#">View Cart</a>
-                      <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                  </div>
                 </div>
                 <!-- /Cart -->
 
@@ -335,6 +300,24 @@
     <script src="/static/home/js/nouislider.min.js"></script>
     <script src="/static/home/js/jquery.zoom.min.js"></script>
     <script src="/static/home/js/main.js"></script>
+    <script>
+      // 获取购物车按钮
+      $('.add-to-cart-btn').click(function(){
+          // 获取商品id
+          id=$(this).prev().attr('value');
+          // alert(id);
+          // ajax
+          $.get("/addShop",{id:id},function(data){
+          // alert(data);
+          if(data==1){
+            alert("添加成功");
+          }else{
+            alert('失败');
+          }
+        });
+
+      })
+    </script>
 
   </body>
 </html>
