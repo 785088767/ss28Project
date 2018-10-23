@@ -31,23 +31,31 @@
       <div class="mws-form-row"> 
        <label class="mws-form-label">密码</label> 
        <div class="mws-form-item"> 
-        <input type="password" class="large" name="password" /> 
+        <input type="password" class="large" name="password" value="{{$info['password']}}"/> 
        </div> 
       </div>
       <div class="mws-form-row"> 
        <label class="mws-form-label">确认密码</label> 
        <div class="mws-form-item"> 
-        <input type="password" class="large" name="repassword" /> 
+        <input type="password" class="large" name="repassword" value="{{$info['password']}}"/> 
        </div> 
       </div>
       <div class="mws-form-row"> 
        <label class="mws-form-label">性别</label> 
        <div class="mws-form-item"> 
-        <select class="large" name="sex">
-              <option disabled="disabled" selected>--请选择--</option>
-              <option value="0" {{$info['sex']==0?'selected':''}}>女</option>
-              <option value="1" {{$info['sex']==1?'selected':''}}>男</option>
-        </select>
+        <select name="sex">
+          <option value="0" @if($info->sex == '女') selected @else '' @endif  >女</option>
+          <option value="1" @if($info->sex == '男') selected @else '' @endif  >男</option>
+       </select>
+       </div> 
+      </div>
+      <div class="mws-form-row"> 
+       <label class="mws-form-label">状态</label> 
+       <div class="mws-form-item"> 
+        <select name="status">
+          <option value="0" @if($info->status == '启用') selected @else '' @endif  >启用</option>
+          <option value="1" @if($info->status == '禁用') selected @else '' @endif  >禁用</option>
+       </select>
        </div> 
       </div>
       <div class="mws-form-row"> 
@@ -73,10 +81,10 @@
        <div class="mws-form-item"> 
         <select class="large" name="level">
               <option disabled="disabled" selected>--请选择--</option>
-              <option value="0" {{$info['level']==0?'selected':''}}>普通会员</option>
-              <option value="1" {{$info['level']==1?'selected':''}}>高级会员</option>
-              <option value="2" {{$info['level']==2?'selected':''}}>土豪用户</option>
-              <option value="3" {{$info['level']==3?'selected':''}}>测试账号</option>
+              <option value="0" {{$info['level']=='普通会员'?'selected':''}}>普通会员</option>
+              <option value="1" {{$info['level']=='高级会员'?'selected':''}}>高级会员</option>
+              <option value="2" {{$info['level']=='土豪用户'?'selected':''}}>土豪用户</option>
+              <option value="3" {{$info['level']=='测试账号'?'selected':''}}>测试账号</option>
         </select>
        </div> 
       </div>

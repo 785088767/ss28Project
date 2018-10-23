@@ -29,13 +29,12 @@
 
     <!-- jq -->
     <script type="text/javascript" src="/static/jquery-1.8.3.min.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<!-- 导航栏 hover -->
+    <style type="text/css">
+      .dropdown:hover .dropdown-menu {
+          display: block;
+       }
+    </style>
 
     </head>
   <body>
@@ -50,8 +49,16 @@
             <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li> -->
           </ul>
           <ul class="header-links pull-right">
-            <li><a href="#"><i class="fa fa-dollar"></i> 账户余额</a></li>
-            <li><a href="#"><i class="fa fa-user-o"></i> 个人中心</a></li>
+          @if(session('denglu'))
+          @foreach(session('denglu') as $v)
+            <li><a href="#"><i class="fa fa-user-o"></i> 欢迎, {{$v->loginname}}</a></li>
+          @endforeach
+            <li><a href="/index_gr"><i class="fa fa-dollar"></i> 个人中心</a></li>
+            <li><a href="/index_login"><i class="fa "></i> 退出</a></li>
+          @else
+            <li><a href="/index_zhuce"><i class="fa fa-dollar"></i> 注册</a></li>
+            <li><a href="/index_login/create"><i class="fa fa-dollar"></i> 登录</a></li>
+          @endif
           </ul>
         </div>
       </div>
@@ -66,7 +73,7 @@
             <!-- LOGO -->
             <div class="col-md-3">
               <div class="header-logo">
-                <a href="#" class="logo">
+                <a href="/" class="logo">
                   <img src="/static/home/img/logo.png" alt="">
                 </a>
               </div>
@@ -76,9 +83,9 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form>
-                  <input class="input" placeholder="查找内容" style="">
-                  <button class="search-btn">查找</button>
+                <form action="/search" method="get">
+                  <input type="text" class="input" name="key" placeholder="查找内容" style="">
+                  <button type="submit" class="search-btn">查找</button>
                 </form>
               </div>
             </div>
@@ -91,18 +98,16 @@
                 <div>
                   <a href="#">
                     <i class="fa fa-heart-o"></i>
-                    <span>心愿单</span>
-                    <div class="qty">2</div>
+                    <span>我的收藏</span>
                   </a>
                 </div>
                 <!-- /Wishlist -->
 
                 <!-- Cart -->
                 <div class="dropdown">
-                  <a class="dropdown-toggle"  href="/cart">
+                  <a class="dropdown-toggle"  href="/homecart">
                     <i class="fa fa-shopping-cart"></i>
                     <span>购物车</span>
-                    <div class="qty">3</div>
                   </a>
                 </div>
                 <!-- /Cart -->
@@ -135,14 +140,19 @@
         <div id="responsive-nav">
           <!-- NAV -->
           <ul class="main-nav nav navbar-nav">
-            <li class="active"><a href="#">首页</a></li>
-            <li><a href="#">热门商品</a></li>
-            <li><a href="#">分类</a></li>
+            <li class="active"><a href="/">首页</a></li>
             @if($navi)
               @foreach($navi as $v)
-                @if($v->pid==0)
-                  <li><a href="#">{{$v->name}}</a></li>
-                @endif
+                <li class="dropdown">
+                  <a href="/list/{{$v->id}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="width:50px;">{{$v->name}}</a>
+                  @if(count($v->dev))
+                    <ul class="dropdown-menu" role="menu">
+                      @foreach($v->dev as $vs)
+                        <li><a href="/list/{{$vs->id}}">{{$vs->name}}</a></li>
+                      @endforeach
+                    </ul>
+                  @endif
+                </li>
               @endforeach
             @else
             <li><a href="#">nothing</a></li>
@@ -161,42 +171,6 @@
     @show
     <!-- /SECTION -->
 
-    <!-- NEWSLETTER -->
-    <div id="newsletter" class="section">
-      <!-- container -->
-      <div class="container">
-        <!-- row -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="newsletter">
-              <p>登记订阅 <strong>最新商品信息</strong></p>
-              <form>
-                <input class="input" type="email" placeholder="邮箱地址">
-                <button class="newsletter-btn"><i class="fa fa-envelope"></i> 订阅</button>
-              </form>
-              <ul class="newsletter-follow">
-                <li>
-                  <a href="#"><i class="fa fa-facebook"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-twitter"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-instagram"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-pinterest"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- /row -->
-      </div>
-      <!-- /container -->
-    </div>
-    <!-- /NEWSLETTER -->
-
     <!-- FOOTER -->
     <footer id="footer">
       <!-- top footer -->
@@ -213,19 +187,6 @@
                   <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
                   <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
                   <li><a href="#"><i class="fa fa-envelope-o"></i>785088767@qq.com</a></li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="col-md-3 col-xs-6">
-              <div class="footer">
-                <h3 class="footer-title">分类</h3>
-                <ul class="footer-links">
-                  <li><a href="#">热卖</a></li>
-                  <li><a href="#">笔记本电脑</a></li>
-                  <li><a href="#">智能手机</a></li>
-                  <li><a href="#">相机</a></li>
-                  <li><a href="#">配件</a></li>
                 </ul>
               </div>
             </div>
@@ -254,6 +215,17 @@
                   <li><a href="#">我的收藏</a></li>
                   <li><a href="#">追踪我的订单</a></li>
                   <li><a href="#">人工客服</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-xs-6">
+              <div class="footer">
+                <h3 class="footer-title">友情链接</h3>
+                <ul class="footer-links">
+                  @foreach($a as $v)
+                  <li><a href="http://{{$v->url}}">{{$v->name}}</a></li>
+                  @endforeach
                 </ul>
               </div>
             </div>

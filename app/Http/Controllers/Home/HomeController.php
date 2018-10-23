@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 // 模型类
-use App\Home\Goods;
-use App\Home\GoodsType;
+use App\Admin\Goods;
+use App\Admin\Brand;
+use App\Admin\Type;
 use DB;
 
 
@@ -18,10 +19,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-
     }
 
     /**
@@ -54,6 +54,7 @@ class HomeController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -93,47 +94,55 @@ class HomeController extends Controller
     // 商城主页
     public function init(){
       // 商品
-      $goods = Goods::get();
+      $goods = Goods::where('display',0)->get();
+      
+      // 品牌
+      $brand = Brand::where('status',0)->get();
+
+      //轮播图
+      $lunbo = DB::table('admin_carousel')->get();
       // dd($goods);
-      return view('Home.index',['goods'=>$goods]);
+      return view('Home.index',['goods'=>$goods,'brand'=>$brand,'lunbo'=>$lunbo]);
     }
 
-    // 添加购物车
-    public function addShop(Request $request){
-        $id = $request->input('id');
-        $goods = Goods::where('id',$id)->first()->toArray();
-        // 重复添加
-        if ($request->session()->has('cart')) {
-            $cart = session('cart');
-            foreach($cart as $k=>$v){
-                if($v['id'] == $id){
-                    $goods['num'] += $v['num'];
-                    $request->session()->pull('key');
-                    $request->session()->push('cart', $goods);
-                }else{
-                    $goods['num'] = 1;
-                    $request->session()->push('cart', $goods);
-                }
-            }
-            echo 1;
-        }else{
-            $goods['num'] = 1;
-            $request->session()->push('cart', $goods);
-            echo 1;
-        }
-        
+    // 类别列表展示
+    public function list(Request $request ,$id){
+        // 获取全部商品
+        // 展示全部商品
+        $data = Goods::where('cid',$id)->orWhere('cpid', $id)->paginate(5);
+        // dd($data);
+        // 分类
+        $cate=DB::table("home_type")->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
+        // 品牌
+        $brand = Brand::where('status',0)->get();
+        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand]);
     }
 
-    // 购物车展示
-    public function cart(Request $request){
-        // 获取session数据判断是否登录
-        if($request->session()->has('login')){
-            // 获取数据库购物车数据
-        }else{
-            // 获取本地session数据 
-            $data = session('cart');
-            // dd($data);
-            return view('Home.cart.cart',['data'=>$data]);
-        }
+    // 品牌列表展示
+    public function blist(Request $request ,$id){
+        // 获取全部商品
+        // 展示全部商品
+        $data = Goods::where('bid',$id)->paginate(5);
+        // dd($data);
+        // 分类
+        $cate=DB::table("home_type")->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
+        // 品牌
+        $brand = Brand::where('status',0)->get();
+        dd($brand);
+        // 按销量排序的商品
+        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand,'sales'=>$sales]);
+    }
+
+    // 搜索结果
+    public function search(Request $request){
+        $key = $request->key;
+        // 获取结果
+        $data = Goods::where('gname','like','%'.$key.'%')->get();
+        // 获取分类
+        $cate = DB::table('home_type')->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
+        // 品牌
+        $brand = Brand::where('status',0)->get();
+        // dd($key);
+        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand]);
     }
 }

@@ -82,6 +82,7 @@ class UsersController extends Controller
     {
         //
         $info=Users::find($id);
+        // dd($info);
         return view('Admin.Users.usersEdit',['info'=>$info]);
     }
 
@@ -98,13 +99,19 @@ class UsersController extends Controller
         // dd($request->all());
         $data = $request->except(['_token','_method','repassword']);
         $data['token'] = str_random(50);
-        $data['status'] = '0';
+        // $data['status'] = '0';
         $oldpwd = Users::where('id','=',$id)->value('password');
         // dd($oldpwd);
+        // if(Hash::check($data['password'],$oldpwd)){
+        //     echo 1;exit;
+        // }else{
+        //     echo 2;exit;
+        // }
         if($data['password'] != $oldpwd){
-          $data['password'] = Hash::make('password');
+          $data['password'] = Hash::make($data['password']);
+        }else{
+          $data['password'] = $oldpwd;
         }
-        // dd($data);
         if(Users::where('id','=',$id)->update($data)){
           return redirect('/usersList')->with('success','修改成功');
         }else{

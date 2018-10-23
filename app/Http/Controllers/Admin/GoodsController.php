@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 // 引入模型类
 use App\Admin\Goods;
 use App\Admin\Type;
+use App\Admin\Brand;
 use DB;
 // 表单校验
 use App\Http\Requests\GoodsInsert;
-//修改校验
+// 修改校验
 use App\Http\Requests\GoodsInsert1;
 
 class GoodsController extends Controller
@@ -26,12 +27,16 @@ class GoodsController extends Controller
         $k = $request->input('keywords');
         //展示全部商品
         $data = Goods::where('gname','like','%',$k,'%')->paginate(5);
-        // dd($data);
+        dd($data);
+        foreach($data as $v){
+            echo $v->type->name;
+        }
+        exit;
         return view('Admin.Goods.goodsList',['data'=>$data,'request'=>$request->all()]);
     }
 
     
-         //调整类别顺序 加分割符
+    //调整类别顺序 加分割符
     public static function getCates(){
         $cate=DB::table("home_type")->select(DB::raw('*,concat(path,id)as paths'))->orderBy('paths')->get();
         //添加分隔符
@@ -58,9 +63,13 @@ class GoodsController extends Controller
      */
     public function create()
     {
-         $cate=self::getCates();
+        // 全部分类
+        $cate = self::getCates();
+        // 全部品牌
+        $brand = Brand::get();
+        // dd($brand);
         //加载分类添加页面
-        return view('Admin.Goods.goodsAdd',['type'=>$cate]);
+        return view('Admin.Goods.goodsAdd',['type'=>$cate,'brand'=>$brand]);
     }
 
     /**
@@ -71,6 +80,8 @@ class GoodsController extends Controller
      */
     public function store(GoodsInsert $request)
     {
+        $data = [];
+        $data = $request->except('_token');
         if($request->isMethod('POST')){
             // 判断是否有文件上传
             if($request->hasFile('gpic')){
@@ -80,12 +91,11 @@ class GoodsController extends Controller
             $ext = $request->file('gpic')->getClientOriginalExtension();
             $name = $n.".".$ext;
             $data['gpic'] = $name;
-            // dd($ext);
+            // dd($data);
             // 移动文件
             $request->file('gpic')->move('./uploads/goods/',$name);
             }
         }
-        $data = $request->except('_token');
         $data['display'] = 0;
         $data['salenum'] = 0;
         // dd($data);
@@ -116,10 +126,11 @@ class GoodsController extends Controller
     public function edit($id)
     {
         // 获取原内容
-        $info = Goods::find($id);
+        $info = Goods::where('id',$id)->first();
         $cate = self::getCates();
-        // dd($info);
-        return view('Admin.Goods.goodsEdit',['info'=>$info,'type'=>$cate]);
+        $brand = Brand::get();
+        // var_dump($info);exit;
+        return view('Admin.Goods.goodsEdit',['info'=>$info,'type'=>$cate,'brand'=>$brand]);
     }
 
     /**
@@ -135,18 +146,19 @@ class GoodsController extends Controller
         $ogpic = $request->input('ogpic');
         // 判断是否有文件上传
         if($request->hasFile('gpic')){
-        //初始化名字
-        $n=time()+rand(1,10000);
-        //获取上传文件后缀
-        $ext = $request->file('gpic')->getClientOriginalExtension();
-        $name = $n.".".$ext;
-        $data['gpic'] = $name;
-        unlink('./uploads/goods/'.$ogpic);
-        unset($data['ogpic']);
-        // dd($ext);
-        // 移动文件
-        $request->file('gpic')->move('./uploads/goods/',$name);
+            //初始化名字
+            $n=time()+rand(1,10000);
+            //获取上传文件后缀
+            $ext = $request->file('gpic')->getClientOriginalExtension();
+            $name = $n.".".$ext;
+            $data['gpic'] = $name;
+            unlink('./uploads/goods/'.$ogpic);
+            unset($data['ogpic']);
+            // dd($ext);
+            // 移动文件
+            $request->file('gpic')->move('./uploads/goods/',$name);
         }
+        unset($data['ogpic']);
         // dd($data);
         if(Goods::where('id','=',$id)->update($data)){
             return redirect('/goodsList')->with('success','修改成功');
@@ -171,6 +183,7 @@ class GoodsController extends Controller
         $id = $request->input('id');
         // 删除图片
         $gpic = Goods::where('id',$id)->value('gpic');
+        // return $gpic;
         unlink('./uploads/goods/'.$gpic);
         // return $id;
         if(Goods::where('id','=',$id)->delete()){

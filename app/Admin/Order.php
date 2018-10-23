@@ -23,9 +23,4 @@ class Order extends Model
     return $this->belongsTo('App\Admin\Users','uid');
   }
 
-  // 中文替换
-  public function getStatusAttribute($value){
-    $status = [0=>'等待付款',1=>'发货',2=>'等待确认收货',3=>'交易成功'];
-    return $status[$value];
-  }
 }

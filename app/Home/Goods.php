@@ -15,6 +15,16 @@ class Goods extends Model
   // 维护时间戳
   public $timestamps = false;
 
+  // 关联分类表
+  public function type(){
+    return $this->belongsTo('App\Admin\Type','cid','id');
+  }
+
+  // 关联品牌表
+  public function brand(){
+    return $this->belongsTo('App\Admin\Brand','bid');
+  }
+  
   // 批量赋值的属性
   protected $fillable = ['gname','gpic','price','stock','display','salenum','addtime','gdesc','visitnum','cpid','fpid'];
 

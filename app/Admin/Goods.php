@@ -18,6 +18,16 @@ class Goods extends Model
   // 批量赋值字段
   protected $fillable = ['cid','bid','gname','gpic','price','stock','display','salenum','gdesc'];
 
+  // 关联分类表
+  public function type(){
+    return $this->belongsTo('App\Admin\Type','cid','id');
+  }
+
+  // 关联品牌表
+  public function brand(){
+    return $this->belongsTo('App\Admin\Brand','bid');
+  }
+
   // 中文替换
   public function getDisplayAttribute($value){
     $display = [0=>'上架中',1=>'已下架'];

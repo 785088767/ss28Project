@@ -129,6 +129,11 @@
         <li><a href="/carousel/create">轮播图添加</a></li> 
         <li><a href="/carousel">轮播图列表</a></li> 
        </ul> </li> 
+       <li> <a href="#"><i class="icon-list-2"></i> 公告管理</a> 
+       <ul class="closed"> 
+       <li><a href="/article">公告列表</a></li> 
+        <li><a href="/article/create">公告添加</a></li>
+       </ul> </li> 
        <li> <a href="#"><i class="icon-list-2"></i> 友情链接</a> 
        <ul class="closed"> 
         <li><a href="/link">全部</a></li>

@@ -8,6 +8,7 @@ use App\Admin\Type;
 use DB;
 //导入校验类
 use App\Http\Requests\AdminInsertType;
+use App\Http\Requests\AdminInsertType1;
 
 class TypeController extends Controller
 {
@@ -107,6 +108,9 @@ class TypeController extends Controller
     public function edit($id)
     {
         //
+        $info = type::find($id);
+        // dd($info);
+        return view('Admin.GoodsType.typeedit',['info'=>$info]);
     }
 
     /**
@@ -116,9 +120,16 @@ class TypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminInsertType1 $request, $id)
     {
         //
+        $data=$request->except('_token','_method');
+        // dd($data);
+        if(type::where('id','=',$id)->update($data)){
+            return redirect('/type')->with('success','修改成功');
+        }else{
+            return redirect('/type/')->with('error','修改失败');
+        }
     }
 
     /**
