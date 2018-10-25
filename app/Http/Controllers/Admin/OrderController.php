@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Admin\Order;
 // 订单详情类
 use App\Admin\OrderInfo;
+use DB;
 
 class OrderController extends Controller
 {
@@ -111,5 +112,15 @@ class OrderController extends Controller
         // 获取数据
         $info = Order::where([["oid",'like',"%".$k."%"],['status','=','3']])->paginate(5);
         return view('Admin.Orders.doneList',['data'=>$info,'request'=>$request->all()]);
+    }
+
+    // 发货
+    public function ajax(Request $request){
+        $id = $request->input('a');
+        // 查询原值
+        $s = DB::table('admin_orders')->where('id',$id)->value('status');
+        DB::table('admin_orders')->where('id',$id)->update(['status'=>$s+1]);
+        $a = DB::table('admin_orders')->where('id',$id)->value('status');
+        echo $a;
     }
 }

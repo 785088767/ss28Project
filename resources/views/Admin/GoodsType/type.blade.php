@@ -33,7 +33,7 @@
         <td class="  sorting_1">{{$row->id}}</td> 
         <td class=" ">{{$row->name}}</td>
         <td class=" ">{{$row->path=='0,'?'顶级分类':$row->path}}</td>
-        <td class=" ">{{$row->display}}</td>
+       <td class="" onclick="pp({{$row->id}}, this)" style="cursor: pointer;">{{$row->display==0?'开启':'关闭'}}</td>
         <td class=" ">
           <a href="/typeAdd/{{$row->id}}" class="btn btn-danger">添加</i></a>
           <a href="javascript:;" class="btn btn-danger del">删除</i></a>
@@ -79,7 +79,16 @@
     }
   });
 
-
+function pp(id, obj){
+      var num = obj.innerHTML=='开启'?1:0;
+      $.get('/zt',{pp:num, id:id},function(data){
+          if(data==0){
+            $(obj).html('开启');
+          }else if(data==1){
+            $(obj).html('关闭');
+          }
+      });
+    }
  </script>
 </html>
 @endsection

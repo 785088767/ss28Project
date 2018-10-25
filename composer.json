@@ -30,7 +30,8 @@
         },
         
         "files":[
-         "app/Library/helper.php"
+         "app/Library/helper.php",
+         "app/Library/alipay/pagepay/pagepay.php"
         ]
     },
     "autoload-dev": {

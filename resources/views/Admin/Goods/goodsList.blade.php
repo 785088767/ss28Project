@@ -43,7 +43,7 @@
         <td class=" ">{{$row->price}}</td> 
         <td class=" ">{{$row->stock}}</td> 
         <td class=" ">{{$row->salenum}}</td>
-        <td class=" ">{{$row->display}}</td>
+        <td class="" onclick="check({{$row->id}}, this)" style="cursor: pointer;">{{$row->display}}</td>
         <td class=" ">
           <a href="/goodsList/{{$row->id}}" class="btn btn-info">商品详情</a>
           <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a>
@@ -85,7 +85,17 @@
         });
     }
   });
-
+ 
+ function check(a, obj){
+    var num = obj.innerHTML=='上架中'?1:0;
+    $.get('/ztt',{a:a,num:num},function(data){
+      if(data==0){
+        $(obj).html('上架中');
+      }else if(data==1){
+        $(obj).html('已下架');
+      }
+    })
+  }
  </script>
 </html>
 @endsection

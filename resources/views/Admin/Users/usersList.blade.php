@@ -35,7 +35,7 @@
         <td class="  sorting_1">{{$row->id}}</td> 
         <td class=" ">{{$row->loginname}}</td> 
         <td class=" ">不可见</td>
-        <td class=" ">{{$row->status}}</td>
+        <td class=" "><button type="" onclick="check({{$row->id}}, this)">{{$row->status}}</button></td>
         <td class=" ">{{$row->sex}}</td>
         <td class=" ">{{$row->level}}</td>
         <td class=" ">
@@ -62,6 +62,18 @@
   </div>
  </body>
  <script type="text/javascript">
+  // 用户状态修改
+  function check(a, obj){
+    var num = obj.innerHTML=='启用'?'1':'0';
+    $.get('/usersta',{a:a,num:num},function(data){
+      if(data==0){
+        $(obj).html('启用');
+      }else if(data==1){
+        $(obj).html('禁用');
+      }
+    })
+  }
+
   // alert($);
   //获取删除按钮
   $(".del").click(function(){

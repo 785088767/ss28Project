@@ -94,55 +94,72 @@ class HomeController extends Controller
     // 商城主页
     public function init(){
       // 商品
-      $goods = Goods::where('display',0)->get();
+      $goods = Goods::where('display',0)->paginate(5);
+      // 按销量排序的商品
+      $sales = Goods::orderBy('salenum','desc')->paginate(5);
       
       // 品牌
       $brand = Brand::where('status',0)->get();
 
       //轮播图
       $lunbo = DB::table('admin_carousel')->get();
-      // dd($goods);
-      return view('Home.index',['goods'=>$goods,'brand'=>$brand,'lunbo'=>$lunbo]);
+      //广告
+      $abs=DB::table('admin_abs')->where('status','=',0)->get();
+      //引入模板
+      return view('Home.index',['goods'=>$goods,'brand'=>$brand,'sales'=>$sales,'lunbo'=>$lunbo,'abs'=>$abs]);
     }
 
     // 类别列表展示
     public function list(Request $request ,$id){
         // 获取全部商品
-        // 展示全部商品
-        $data = Goods::where('cid',$id)->orWhere('cpid', $id)->paginate(5);
+        $data = Goods::where('cid',$id)->orWhere('cpid', $id)->paginate(3);
         // dd($data);
         // 分类
         $cate=DB::table("home_type")->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
         // 品牌
         $brand = Brand::where('status',0)->get();
-        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand]);
+        $sales = Goods::orderBy('salenum','desc')->get();
+        // dd($sales);
+        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand,'sales'=>$sales]);
     }
 
     // 品牌列表展示
     public function blist(Request $request ,$id){
         // 获取全部商品
-        // 展示全部商品
         $data = Goods::where('bid',$id)->paginate(5);
         // dd($data);
         // 分类
         $cate=DB::table("home_type")->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
         // 品牌
         $brand = Brand::where('status',0)->get();
-        dd($brand);
+        // dd($brand);
         // 按销量排序的商品
+        $sales = Goods::orderBy('salenum','desc')->paginate(5);
+        // dd($sales);
         return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand,'sales'=>$sales]);
     }
 
     // 搜索结果
     public function search(Request $request){
         $key = $request->key;
+        // dd($key);
         // 获取结果
-        $data = Goods::where('gname','like','%'.$key.'%')->get();
+        $data = Goods::where('gname','like','%'.$key.'%')->paginate(5);
         // 获取分类
         $cate = DB::table('home_type')->select(DB::raw('*,concat(path,id) as paths'))->where('display',0)->orderBy('paths')->get();
         // 品牌
         $brand = Brand::where('status',0)->get();
-        // dd($key);
-        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand]);
+        $sales = Goods::orderBy('salenum','desc')->get();
+        // dd($sales);
+        return view('Home.store.index',['data'=>$data,'cate'=>$cate,'brand'=>$brand,'sales'=>$sales]);
+    }
+
+    // 公告
+    public function gg($id){
+      // dd($id);/
+      $gg = DB::table('admin_article')->where('id',$id)->first();
+      // dd($gg);
+        //公告页面
+        return view('Home.gg.index',['gg'=>$gg]);
     }
 }

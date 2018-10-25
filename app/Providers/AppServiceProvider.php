@@ -31,9 +31,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         view()->composer('HomePublic.Public',function ($view){
+            $gg = DB::table('admin_article')->get();
             $data=$this->getCatesBypid(0);
             $a = DB::table('admin_link')->where('status','0')->get();
-            $view->with(['navi'=>$data,'a'=>$a]);
+            $view->with(['navi'=>$data,'a'=>$a,'g'=>$gg]);
         });
     }
 

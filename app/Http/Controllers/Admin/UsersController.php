@@ -139,4 +139,12 @@ class UsersController extends Controller
             echo 0;
         }
     }
+
+    public function sta(Request $request){
+        $a = $request->input('a');
+        $num = $request->input('num');
+        DB::table('home_user')->where('id',$a)->update(['status'=>$num]);
+        $status = DB::table('home_user')->where('id',$a)->value('status');
+        echo $status;
+    }
 }

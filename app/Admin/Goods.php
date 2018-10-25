@@ -16,7 +16,7 @@ class Goods extends Model
   public $timestamps = true;
 
   // 批量赋值字段
-  protected $fillable = ['cid','bid','gname','gpic','price','stock','display','salenum','gdesc'];
+  protected $fillable = ['cid','cpid','bid','gname','gpic','price','stock','display','salenum','gdesc'];
 
   // 关联分类表
   public function type(){

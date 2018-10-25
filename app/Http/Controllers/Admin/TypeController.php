@@ -163,4 +163,18 @@ class TypeController extends Controller
             }
         }
     }
+
+    //ajax限制
+    public function ajax(Request $request){
+          //获取ajax获取过来的状况
+          $pp=$request->input('pp');
+          //修改条件id
+          $id=$request->input('id');
+          //修改状态
+          DB::table('home_type')->where('id','=',$id)->update(['display'=>$pp]);
+          //查询状况
+          $status=DB::table('home_type')->where('id','=',$id)->value('display');
+          //输出状况
+          echo $status;
+    }
 }

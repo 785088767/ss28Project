@@ -27,11 +27,7 @@ class GoodsController extends Controller
         $k = $request->input('keywords');
         //展示全部商品
         $data = Goods::where('gname','like','%',$k,'%')->paginate(5);
-        dd($data);
-        foreach($data as $v){
-            echo $v->type->name;
-        }
-        exit;
+        // dd($data);
         return view('Admin.Goods.goodsList',['data'=>$data,'request'=>$request->all()]);
     }
 
@@ -98,6 +94,9 @@ class GoodsController extends Controller
         }
         $data['display'] = 0;
         $data['salenum'] = 0;
+        // 存入父类id
+        $cpid = Type::where('id',$data['cid'])->value('pid');
+        $data['cpid'] = $cpid;
         // dd($data);
         if(Goods::create($data)){
             return redirect('/goodsList')->with('success','添加成功');
@@ -192,4 +191,24 @@ class GoodsController extends Controller
             echo 0;
         }
     }
+
+    //ajax限制
+    public function ajax(Request $request){
+          //获取ajax获取过来的状况
+          // $pp=$request->input('num');
+          // //修改条件id
+          // $id=$request->input('a');
+          // //修改状态
+          // DB::table('home_goods')->where('id','=',$id)->update(['display'=>$pp]);
+          // //查询状况
+          // $status=DB::table('home_goods')->where('id','=',$id)->value('display');
+          // //输出状况
+          // echo $status;
+
+          $id = $request->input('a');
+          $num = $request->input('num');
+          DB::table('home_goods')->where('id',$id)->update(['display'=>$num]);
+          $s = DB::table('home_goods')->where('id',$id)->value('display');
+          echo $s;
+      }
 }

@@ -56,7 +56,7 @@
             <li><a href="/index_gr"><i class="fa fa-dollar"></i> 个人中心</a></li>
             <li><a href="/index_login"><i class="fa "></i> 退出</a></li>
           @else
-            <li><a href="/index_zhuce"><i class="fa fa-dollar"></i> 注册</a></li>
+            <li><a href="/index_zhuce/create"><i class="fa fa-dollar"></i> 注册</a></li>
             <li><a href="/index_login/create"><i class="fa fa-dollar"></i> 登录</a></li>
           @endif
           </ul>
@@ -83,9 +83,31 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
               <div class="header-search">
-                <form action="/search" method="get">
+                <!-- <form action="/search" method="get">
                   <input type="text" class="input" name="key" placeholder="查找内容" style="">
                   <button type="submit" class="search-btn">查找</button>
+                </form> -->
+                <form action="/search" method="post" target="_blank">
+                  <!--
+                    将两个元素整合为一体需要下面两步~
+                    1.将div的Class属性改变成form-inline 可以让下面的两个input并排显示-->
+                  <div class="form-inline input-group">
+                      <!--UTF-8编码-->
+                      <input name=ie type=HIDDEN value=utf-8/>
+                      <input name=tn type=HIDDEN value=baidu/>
+                  <!--2.利用span标签的 input-group-btn 属性包裹一个input元素-->
+                      <span class="input-group-btn">
+                          <!-- baiduSug: 
+                              当设置baiduSug=1时，用户选中sug词条时默认执行表单提交动作；
+                              当设置baiduSug=2时，用户选中sug词条时不执行表单提交动作。
+
+                              style :     "width:260px;" 调整搜索框长度
+                          -->
+                          <input id="kw" type="text" class="form-control" placeholder="搜你想搜的" name="key" size="30" baiduSug="1" style="width:240px;">
+                         <!--提交按钮-->
+                          <input type="submit"  class="btn btn-default"  value="查找"/>
+                      </span>
+                  </div>
                 </form>
               </div>
             </div>
@@ -96,16 +118,16 @@
               <div class="header-ctn">
                 <!-- Wishlist -->
                 <div>
-                  <a href="#">
-                    <i class="fa fa-heart-o"></i>
-                    <span>我的收藏</span>
+                  <a href="/index_gr">
+                    <!-- <i class="fa fa-heart-o"></i> -->
+                    <!-- <span>个人中心</span> -->
                   </a>
                 </div>
                 <!-- /Wishlist -->
 
                 <!-- Cart -->
                 <div class="dropdown">
-                  <a class="dropdown-toggle"  href="/homecart">
+                  <a class="/dropdown-toggle"  href="/homecart">
                     <i class="fa fa-shopping-cart"></i>
                     <span>购物车</span>
                   </a>
@@ -207,14 +229,13 @@
             </div>
 
             <div class="col-md-3 col-xs-6">
+             
               <div class="footer">
-                <h3 class="footer-title">服务支持</h3>
-                <ul class="footer-links">
-                  <li><a href="#">我的账户</a></li>
-                  <li><a href="#">查看购物车</a></li>
-                  <li><a href="#">我的收藏</a></li>
-                  <li><a href="#">追踪我的订单</a></li>
-                  <li><a href="#">人工客服</a></li>
+                <h3 class="footer-title">商城公告</h3>
+                <ul class="footer-links"> 
+                  @foreach($g as $row)
+                  <li><a href="/gg/{{$row->id}}">{{$row->title}}</a></li> 
+                   @endforeach
                 </ul>
               </div>
             </div>

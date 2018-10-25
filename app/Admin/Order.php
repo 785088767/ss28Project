@@ -22,5 +22,4 @@ class Order extends Model
   public function users(){
     return $this->belongsTo('App\Admin\Users','uid');
   }
-
 }

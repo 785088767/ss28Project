@@ -180,4 +180,14 @@ class AdminController extends Controller
         DB::table("user_role")->where("uid",$uid)->update($data);
         return redirect("/admin")->with('success','角色分配成功');
     }
+
+    // 账号状态修改
+    public function sta(Request $request){
+        // echo $request->input('a');
+        $id = $request->input('a');
+        $num = $request->input('num');
+        DB::table('admin_user')->where('id',$id)->update(['status'=>$num]);
+        $s = DB::table('admin_user')->where('id',$id)->value('status');
+        echo $s;
+    }
 }

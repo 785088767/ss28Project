@@ -1,6 +1,48 @@
 @extends('HomePublic.Public')
 @section('title','商城首页')
 @section('home')
+
+<!-- 广告 -->
+<style>
+    .gg{
+        width:150px;
+        height:510px;
+        background-color:white;
+        float:right;
+    }
+    .gg2{
+        width:150px;
+        height:510px;
+        background-color:white;
+        float:left;
+    }
+    .img{
+        width:150px;
+        height:450px;
+        /*background-color:red; */
+    }
+</style>
+
+@if (count($abs) == 1) 
+<div class="gg">
+  <a href="#" onclick="ads(this)" title="">X</a>
+  <a href="{{$abs[0]->url}}"><img class="img" src="/uploads/add/{{$abs[0]->file}}"></a>
+  <center><h2>广告位</h2></center> 
+</div>
+@elseif (count($abs) == 2)
+<div class="gg">
+  <a href="#" onclick="ads(this)" title="">X</a>
+  <a href="{{$abs[0]->url}}"><img class="img" src="/uploads/add/{{$abs[0]->file}}"></a>
+  <center><h2>广告位</h2></center> 
+</div>
+<div class="gg2">
+  <a href="#" onclick="ads(this)" title="">X</a>
+  <a href="{{$abs[1]->url}}"><img class="img" src="/uploads/add/{{$abs[1]->file}}"></a>
+  <center><h2>广告位</h2></center>
+</div>
+@endif
+
+
 <!-- <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <!-- 轮播 -->
 <div id="myCarousel" class="carousel slide" style="width:1000px;margin: 0 auto;">
@@ -49,7 +91,6 @@
                             <li class="active"><a  href="/list">全部商品</a>
                             </li>
                             @foreach($brand as $v)
-                            <li><a data-toggle="tab" href="#tab1">{{$v['name']}}</a>
                             </li>
                             @endforeach
                         </ul>
@@ -223,7 +264,7 @@
 
             <div class="col-md-4 col-xs-6">
                 <div class="section-title">
-                     <h4 class="title">销量</h4>
+                     <h4 class="title">销量排行</h4>
 
                     <div class="section-nav">
                         <div id="slick-nav-4" class="products-slick-nav"></div>
@@ -233,18 +274,22 @@
                     <div>
 <!-- 遍历 -->
                         <!-- product widget -->
+                        @foreach($sales as $v)
+                        <a href="/detailss/{{$v->id}}" title="">
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src="/static/home/img/product04.png" alt="">
+                                <img src="/uploads/goods/{{$v->gpic}}" alt="">
                             </div>
                             <div class="product-body">
-                                <p class="product-category">Category</p>
-                                 <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <p class="product-category"></p>
+                                 <h3 class="product-name"><a href="/detailss/{{$v->id}}">{{$v->gname}}</a></h3>
 
                                  <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
 
                             </div>
                         </div>
+                        </a>
+                        @endforeach
                         <!-- /product widget -->
                         
                     </div>
@@ -255,7 +300,7 @@
             <div class="clearfix visible-sm visible-xs"></div>
             <div class="col-md-4 col-xs-6">
                 <div class="section-title">
-                     <h4 class="title">评价</h4>
+                     <h4 class="title">好评</h4>
 
                     <div class="section-nav">
                         <div id="slick-nav-5" class="products-slick-nav"></div>
@@ -265,18 +310,22 @@
                     <div>
 <!-- 遍历 -->
                         <!-- product widget -->
+                        @foreach($goods as $v)
+                        <a href="/detailss/{{$v->id}}" title="">
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src="/static/home/img/product01.png" alt="">
+                                <img src="/uploads/goods/{{$v->gpic}}" alt="">
                             </div>
                             <div class="product-body">
-                                <p class="product-category">Category</p>
-                                 <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                <p class="product-category"></p>
+                                 <h3 class="product-name"><a href="/detailss/{{$v->id}}">{{$v->gname}}</a></h3>
 
                                  <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
 
                             </div>
                         </div>
+                        </a>
+                        @endforeach
                         <!-- /product widget -->
                         
                     </div>
@@ -287,4 +336,10 @@
     </div>
     <!-- /container -->
 </div>
+<script type="text/javascript">
+  function ads(obj){
+    // alert('123');
+    $(obj).parent().hide();
+  }
+</script>
 @endsection

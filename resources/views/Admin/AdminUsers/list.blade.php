@@ -1,9 +1,9 @@
 @extends("AdminPublic.public")
 @section('admin')
 <html>
- <head></head>
- <script type="text/javascript" src="/static/jquery-1.8.3.min.js"></script>
- <body>
+  <head></head>
+  <script type="text/javascript" src="/static/jquery-1.8.3.min.js"></script>
+  <body>
   <div class="mws-panel grid_8"> 
    <div class="mws-panel-header"> 
     <span><i class="icon-table"></i>后台用户列表</span> 
@@ -37,14 +37,8 @@
         <td class=" ">不可见</td>
         <td class=" ">{{$row->created_at}}</td>
         <td class=" ">{{$row->updated_at}}</td>
-        <td class=" ">{{$row->status}}</td>
-        <td class=" ">
-          <!-- <form action="/adminuser/{{$row->id}}" method="post">
-            <button class="btn btn-success">普通删除</button>
-            {{method_field("DELETE")}}
-            {{csrf_field()}}
-          </form>
- -->          
+        <td class=" "><button type="" onclick="check({{$row->id}}, this)">{{$row->status}}</button></td>
+        <td class=" ">     
           <a href="/adminrole/{{$row->id}}" class="btn btn-mini">等级变更</a>
           <a href="/admin/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a>
           <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a>
@@ -62,30 +56,41 @@
     </div> 
    </div> 
   </div>
- </body>
- <script type="text/javascript">
+  </body>
+  <script type="text/javascript">
+  function check(a, obj){
+    var num = obj.innerHTML=='启用'?'1':'0';
+    $.get('/adminsta',{a:a,num:num},function(data){
+      if(data==0){
+        $(obj).html('启用');
+      }else if(data==1){
+        $(obj).html('禁用');
+      }
+    })
+  }
+
   // alert($);
   //获取删除按钮
   $(".del").click(function(){
-    //获取id
-    id=$(this).parents("tr").find("td:first").html();
-    s=$(this).parents("tr");
-    ss=confirm("你确定删除吗?");
-    if(ss){
-            // alert(id);
-        $.get("/adminDel",{id:id},function(data){
-          // alert(data);
-          if(data==1){
-            // alert("删除成功");
-            //删除数据所在的tr
-            s.remove();
-          }
-        });
-    }
+  //获取id
+  id=$(this).parents("tr").find("td:first").html();
+  s=$(this).parents("tr");
+  ss=confirm("你确定删除吗?");
+  if(ss){
+          // alert(id);
+      $.get("/adminDel",{id:id},function(data){
+        // alert(data);
+        if(data==1){
+          // alert("删除成功");
+          //删除数据所在的tr
+          s.remove();
+        }
+      });
+  }
   });
 
 
- </script>
+  </script>
 </html>
 @endsection
 @section('title','后台用户列表')

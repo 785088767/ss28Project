@@ -23,10 +23,10 @@
         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 209px;">订单号</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">下单用户名</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">总价</th>
-         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">状态</th>
+         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 207px;">状态</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">下单时间</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">付款时间</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 351px;">操作</th>
+        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 151px;">操作</th>
        </tr> 
       </thead> 
       <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -37,13 +37,23 @@
         <td class=" ">{{$row->oid}}</td> 
         <td class=" ">{{$row->users->loginname}}</td>
         <td class=" ">{{$row->total}}</td> 
-        <td class=" ">{{$row->status}}</td>
-        <td class=" ">{{$row->addtime}}</td>
-        <td class=" ">{{$row->paytime}}</td>
+        @if($row->status==0)
+        <td class=" ">待付款</td>
+        @elseif($row->status==1)
+        <td class=" "><button onclick="btn({{$row->id}}, this)" type="">点击发货</button></td>
+        @elseif($row->status==2)
+        <td class=" ">待收货</td>
+        @elseif($row->status==3)
+        <td class=" ">订单完成</td>
+        @elseif($row->status==4)
+        <td class=" "><button onclick="btn({{$row->id}}, this)" type="">确认退货</button></td>
+        @elseif($row->status==5)
+        <td class=" ">订单完成</td>
+        @endif
+        <td class=" ">{{date('Y-m-d H:i:s',$row->addtime)}}</td>
+        <td class=" ">{{date('Y-m-d H:i:s',$row->paytime)}}</td>
         <td class=" ">
-          <a href="/orderList/{{$row->id}}" class="btn btn-info">详情</a>
-          <!-- <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a> -->
-          <a href="/orderList/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a> 
+          <a href="/orderList/{{$row->id}}" class="btn btn-info">详情</a> 
         </td>
        </tr>
        @endforeach
@@ -60,6 +70,16 @@
   </div>
  </body>
  <script type="text/javascript">
+ function btn(a, obj){
+  $.get('/ajaxorder',{a:a},function(data){
+    if(data == 2){
+      $(obj).parent().html('待收货');
+    }else{
+      $(obj).parent().html('订单完成');
+    }
+  })
+ }
+
   // alert($);
   //获取删除按钮
   $(".del").click(function(){
