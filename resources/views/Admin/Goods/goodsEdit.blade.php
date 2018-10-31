@@ -84,7 +84,7 @@
        <label class="mws-form-label">商品图片</label> 
        <div class="mws-form-item"> 
         <input type="file" class="large" name="gpic" /> 
-        <img src="/uploads/goods/{{$info->gpic}}" alt="">
+        <img src="/uploads/goods/{{$info->gpic}}" width="300" alt="">
        </div> 
       </div>
       <div class="mws-form-row"> 

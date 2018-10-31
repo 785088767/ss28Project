@@ -23,13 +23,13 @@ class Users extends Model
     $status = [0=>'启用',1=>'禁用'];
     return $status[$value];
   }
-  public function getSexAttribute($value){
-    $sex = [0=>'女',1=>'男'];
-    return $sex[$value];
-  }
-  public function getLevelAttribute($value){
-    $level = [0=>'普通会员',1=>'高级会员',2=>'土豪',3=>'测试账号'];
-    return $level[$value];
-  }
+  // public function getSexAttribute($value){
+  //   $sex = [0=>'女',1=>'男'];
+  //   return $sex[$value];
+  // }
+  // public function getLevelAttribute($value){
+  //   $level = [0=>'普通会员',1=>'高级会员',2=>'土豪',3=>'测试账号'];
+  //   return $level[$value];
+  // }
 
 }

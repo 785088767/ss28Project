@@ -18,7 +18,7 @@ Route::resource("/adminlogin","Admin\LoginController");
 Route::get('/code','Admin\LoginController@code');
 
 // 后台路由组(中间件)
-// Route::group(['middleware'=>'AdminLogin'],function(){
+Route::group(['middleware'=>'AdminLogin'],function(){
   // 后台主页
   Route::resource('/adminindex','Admin\AdminIndexController');
   // 管理员模块
@@ -46,7 +46,7 @@ Route::get('/code','Admin\LoginController@code');
 
   // 品牌模块
   Route::resource('/brandList','Admin\BrandController');
-  Route::get('/brandDel','Admin\BrandController@brandDel');
+  Route::get('/brandDel','Admin\BrandController@del');
   // 品牌
   Route::get('/ajax','Admin\BrandController@ajax'); 
 
@@ -89,7 +89,7 @@ Route::get('/code','Admin\LoginController@code');
   Route::resource("/carousel","Admin\CarouselController");
   Route::get("/carouseldel","Admin\CarouselController@del");
   Route::get("/carouseldel2","Admin\CarouselController@ajax");
-// });
+});
 
 
 // 商城主页
@@ -133,7 +133,7 @@ Route::get("/list/{id}",'Home\HomeController@list');
 // 品牌商品列表
 Route::get("/blist/{id}",'Home\HomeController@blist');
 // 搜索列表
-Route::get("/search",'Home\HomeController@search');
+Route::post("/search",'Home\HomeController@search');
 
 //详情
 Route::resource("/details","Home\DetailsController");

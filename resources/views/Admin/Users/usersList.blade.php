@@ -25,7 +25,7 @@
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">账户状态</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">性别</th>
          <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 137px;">账户等级</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 101px;">操作</th>
+        <!-- <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 101px;">操作</th> -->
        </tr> 
       </thead> 
       <tbody role="alert" aria-live="polite" aria-relevant="all">
@@ -38,15 +38,6 @@
         <td class=" "><button type="" onclick="check({{$row->id}}, this)">{{$row->status}}</button></td>
         <td class=" ">{{$row->sex}}</td>
         <td class=" ">{{$row->level}}</td>
-        <td class=" ">
-          <!-- <form action="/adminuser/{{$row->id}}" method="post">
-            <button class="btn btn-success">普通删除</button>
-            {{method_field("DELETE")}}
-            {{csrf_field()}}
-          </form>
- -->          <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a>
-          <!-- <a href="/adminuseraddress/{{$row->id}}" class="btn btn-info">会员收货地址</a> -->
-          <a href="/usersList/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a></td> 
        </tr>
        @endforeach
        @else

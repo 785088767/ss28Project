@@ -45,7 +45,7 @@
         <td class=" ">{{$row->salenum}}</td>
         <td class="" onclick="check({{$row->id}}, this)" style="cursor: pointer;">{{$row->display}}</td>
         <td class=" ">
-          <a href="/goodsList/{{$row->id}}" class="btn btn-info">商品详情</a>
+          <!-- <a href="/goodsList/{{$row->id}}" class="btn btn-info">商品详情</a> -->
           <a href="javascript:;" class="btn btn-danger del"><i class="icon-trash"></i></a>
           <a href="/goodsList/{{$row->id}}/edit" class="btn btn-info"><i class="icon-edit"></i></i></a> 
         </td>

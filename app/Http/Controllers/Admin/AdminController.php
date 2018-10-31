@@ -57,7 +57,7 @@ class AdminController extends Controller
         $data['token'] = str_random(50);
         // dd($data);
         if(AdminUser::create($data)){
-            return redirect('/adminList')->with('success','添加成功');
+            return redirect('/admin')->with('success','添加成功');
         }else{
             return redirect('/admin/create')->with('error','添加失败');
         }

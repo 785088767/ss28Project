@@ -87,7 +87,7 @@
                   <input type="text" class="input" name="key" placeholder="查找内容" style="">
                   <button type="submit" class="search-btn">查找</button>
                 </form> -->
-                <form action="/search" method="post" target="_blank">
+                <form action="/search" method="post">
                   <!--
                     将两个元素整合为一体需要下面两步~
                     1.将div的Class属性改变成form-inline 可以让下面的两个input并排显示-->
@@ -105,6 +105,7 @@
                           -->
                           <input id="kw" type="text" class="form-control" placeholder="搜你想搜的" name="key" size="30" baiduSug="1" style="width:240px;">
                          <!--提交按钮-->
+                         {{csrf_field()}}
                           <input type="submit"  class="btn btn-default"  value="查找"/>
                       </span>
                   </div>

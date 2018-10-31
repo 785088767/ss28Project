@@ -88,7 +88,7 @@
 
                     <div class="section-nav">
                         <ul class="section-tab-nav tab-nav">
-                            <li class="active"><a  href="/list">全部商品</a>
+                            <li class="active"><a  href="/search">全部商品</a>
                             </li>
                             @foreach($brand as $v)
                             </li>
@@ -166,59 +166,7 @@
 </div>
 <!-- /SECTION -->
 <!-- HOT DEAL SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container">
-<h3 class="title">产品分类</h3>
-        <!-- row -->
-        <div class="row">
-            <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop">
-                    <div class="shop-img">
-                        <img src="/static/home/img/shop01.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                         <h3>笔记本专区<br>Collection</h3>
- <a href="#" class="cta-btn">点击前往<i class="fa fa-arrow-circle-right"></i></a>
 
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->
-            <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop">
-                    <div class="shop-img">
-                        <img src="/static/home/img/shop03.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                         <h3>数码配件<br>Collection</h3>
- <a href="#" class="cta-btn">点击前往<i class="fa fa-arrow-circle-right"></i></a>
-
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->
-            <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop">
-                    <div class="shop-img">
-                        <img src="/static/home/img/shop02.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                         <h3>相机<br>Collection</h3>
- <a href="#" class="cta-btn">点击前往<i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /HOT DEAL SECTION -->
 
 <!-- SECTION -->
 <div class="section">

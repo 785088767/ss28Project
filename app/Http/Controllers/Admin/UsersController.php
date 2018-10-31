@@ -26,6 +26,7 @@ class UsersController extends Controller
         // 获取数据
         $user = Users::where("loginname",'like',"%".$k."%")->paginate(5);
         // 会员展示
+        // dd($user);
         return view('Admin.Users.usersList',['user'=>$user,'request'=>$request->all()]);
     }
 

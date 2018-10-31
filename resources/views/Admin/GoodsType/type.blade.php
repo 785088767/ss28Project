@@ -45,11 +45,11 @@
          @else
         <h1>暂无数据</h1>
          @endif
+      </tbody>
+     </table>
         <div class="dataTables_paginate paging_full_numbers" id="pages">
         {{$data->appends($request)->render()}}
         </div>
-      </tbody>
-     </table>
      <div class="dataTables_paginate paging_full_numbers" id="pages">
      </div>
     </div> 

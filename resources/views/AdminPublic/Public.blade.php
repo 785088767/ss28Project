@@ -44,13 +44,9 @@
    <!-- User Tools (notifications, logout, profile, change password) --> 
    <div id="mws-user-tools" class="clearfix"> 
     <!-- Notifications --> 
-    <div id="mws-user-notif" class="mws-dropdown-menu"> 
-     <a href="#" class="mws-dropdown-trigger">个人中心</a> 
-    </div> 
+    
     <!-- Messages --> 
-    <div id="mws-user-message" class="mws-dropdown-menu"> 
-     <a href="/AdminLogout" class="mws-dropdown-trigger">退出</a> 
-    </div> 
+    
     <!-- User Information and functions section --> 
     <div id="mws-user-info" class="mws-inset"> 
      <!-- User Photo --> 
@@ -98,9 +94,9 @@
         <li><a href="/admin">管理员列表</a></li> 
         <li><a href="/adminrolelist">角色列表</a></li> 
        </ul> </li> 
-      <li> <a href="#"><i class="icon-users"></i> 会员账户管理</a> 
+      <li> <a href="#"><i class="icon-users"></i> 会员账户</a> 
        <ul class="closed"> 
-        <li><a href="/usersList/create">会员添加</a></li> 
+        <!-- <li><a href="/usersList/create">会员添加</a></li>  -->
         <li><a href="/usersList">会员列表</a></li> 
        </ul> </li> 
       <li> <a href="#"><i class="icon-th-list"></i> 分类管理</a> 
@@ -126,8 +122,8 @@
        </ul> </li> 
        <li> <a href="#"><i class="icon-bars"></i> 轮播图管理</a> 
        <ul class="closed"> 
-        <li><a href="/carousel/create">轮播图添加</a></li> 
         <li><a href="/carousel">轮播图列表</a></li> 
+        <li><a href="/carousel/create">轮播图添加</a></li> 
        </ul> </li> 
        <li> <a href="#"><i class="icon-direction"></i> 公告管理</a> 
        <ul class="closed"> 

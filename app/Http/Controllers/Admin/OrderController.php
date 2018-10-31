@@ -110,7 +110,7 @@ class OrderController extends Controller
     public function doneList(Request $request){
         $k=$request->input("keywords");
         // 获取数据
-        $info = Order::where([["oid",'like',"%".$k."%"],['status','=','3']])->paginate(5);
+        $info = Order::where("oid",'like',"%".$k."%")->whereIn('status', [3,5])->paginate(5);
         return view('Admin.Orders.doneList',['data'=>$info,'request'=>$request->all()]);
     }
 
